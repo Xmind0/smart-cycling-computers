@@ -1,0 +1,6 @@
+/home/hcy/QT_pro/smart-cycling-computer/build/Desktop_Qt_6_5_2_GCC_64bit-Debug/CMakeFiles/scc-app.dir
+/home/hcy/QT_pro/smart-cycling-computer/build/Desktop_Qt_6_5_2_GCC_64bit-Debug/CMakeFiles/scc-app_qmlimportscan.dir
+/home/hcy/QT_pro/smart-cycling-computer/build/Desktop_Qt_6_5_2_GCC_64bit-Debug/CMakeFiles/edit_cache.dir
+/home/hcy/QT_pro/smart-cycling-computer/build/Desktop_Qt_6_5_2_GCC_64bit-Debug/CMakeFiles/rebuild_cache.dir
+/home/hcy/QT_pro/smart-cycling-computer/build/Desktop_Qt_6_5_2_GCC_64bit-Debug/CMakeFiles/scc-app_autogen_timestamp_deps.dir
+/home/hcy/QT_pro/smart-cycling-computer/build/Desktop_Qt_6_5_2_GCC_64bit-Debug/CMakeFiles/scc-app_autogen.dir

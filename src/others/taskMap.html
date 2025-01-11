@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" type="text/css">
+    <style>
+      html,body,#container{
+        height: 100%
+      }
+    </style>
+  </head>
+  <body>
+    <div id='container'></div>
+    <script>
+      // 异步加载高德地图
+      function loadAMap() {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://webapi.amap.com/maps?v=1.4.12&key=ed861f94455ee6781a1e526a52fbd0bc&callback=initAMap';
+          script.async = true;
+          script.onerror = reject;
+          window.initAMap = function() {
+            resolve();
+            delete window.initAMap;
+          };
+          document.body.appendChild(script);
+        });
+      }
+
+      // 初始化地图功能
+      async function initialize() {
+        try {
+          await loadAMap();
+          
+          // 初始化地图
+          window.map = new AMap.Map('container', {
+            zoom: 11,
+            center: [116.397428, 39.90923]
+          });
+
+          // 其他地图功能保持不变
+          console.log('地图加载成功');
+        } catch (error) {
+          console.error('地图加载失败:', error);
+        }
+      }
+
+      // 地图功能函数
+      function zoomIn() {
+        let zoom = map.getZoom();
+        map.setZoom(zoom + 1);
+      }
+
+      function zoomOut() {
+        let zoom = map.getZoom();
+        map.setZoom(zoom - 1);
+      }
+
+      function locatePosition(longitude, latitude) {
+        if (longitude === undefined || latitude === undefined) {
+          AMap.plugin('AMap.Geolocation', function() {
+            var geolocation = new AMap.Geolocation({
+              enableHighAccuracy: true,
+              timeout: 10000,
+              maximumAge: 0,
+              convert: true,
+              showButton: false,
+              buttonPosition: 'LB',
+              buttonOffset: new AMap.Pixel(10, 20),
+              showMarker: true,
+              showCircle: true,
+              panToLocation: true,
+              zoomToAccuracy: true
+            });
+            
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition(function(status, result) {
+              if (status == 'complete') {
+                console.log('定位成功');
+              } else {
+                console.log('定位失败');
+              }
+            });
+          });
+        } else {
+          var marker = new AMap.Marker({
+            position: [longitude, latitude],
+            map: map
+          });
+          
+          map.setCenter([longitude, latitude]);
+          map.setZoom(15);
+          console.log('已定位到指定坐标');
+        }
+      }
+
+      // 启动初始化
+      initialize();
+    </script>
+  </body>
+</html>

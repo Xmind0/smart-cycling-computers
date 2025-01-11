@@ -1,0 +1,5 @@
+/home/hcy/QT_pro/smart-cycling-computer/CMakeFiles/scc-app.dir
+/home/hcy/QT_pro/smart-cycling-computer/CMakeFiles/scc-app_qmlimportscan.dir
+/home/hcy/QT_pro/smart-cycling-computer/CMakeFiles/edit_cache.dir
+/home/hcy/QT_pro/smart-cycling-computer/CMakeFiles/rebuild_cache.dir
+/home/hcy/QT_pro/smart-cycling-computer/CMakeFiles/scc-app_autogen.dir
