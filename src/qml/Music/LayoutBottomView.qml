@@ -422,6 +422,8 @@ Rectangle{
                     var url = data.url
                     var time = data.time
 
+
+
                     //设置Slider
                     setSlider(0,time,0)
 

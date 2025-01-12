@@ -19,7 +19,7 @@ ApplicationWindow {
     //flags: Qt.FramelessWindowHint // 移除窗口边框和标题栏
     visible: true
 
-    property bool showFullItem: true
+    property bool showFullItem: false
 
     // 添加 BlueWifi 组件
     BlueWifi {
@@ -29,7 +29,7 @@ ApplicationWindow {
 
     MusicPlayerWindow{
         id: musicPlayer
-        visible: true
+        visible: false
     }
 
     Camera{
