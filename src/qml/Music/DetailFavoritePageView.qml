@@ -3,6 +3,9 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
+import QtCore
+// import Qt.labs.settings 1.1  //settings 好像不支持
+// import Qt.labs.platform 1.0
 import QtQml 2.12
 import Style
 
@@ -59,24 +62,63 @@ ColumnLayout{
         getFavorite()
     }
 
-    function getFavorite(){
-        // console.log(favoriteSettings)
-        // favoriteListView.musicList = favoriteSettings.value("favorite",[])
-        // console.log("this is"+favoriteListView.musicList)
+    Settings {
+        id: favoriteSettings
+        location: StandardPaths.standardLocations(StandardPaths.AppConfigLocation)[0] + "/musicplayer.conf"
+        category: "Favorite" 
+        property var favorite: []
     }
 
-    function clearFavorite(){
-        let favoriteList = ["Song1", "Song2", "Song3"]
-        // favoriteSettings.setValue("favorite", favoriteList.toVariant())
+    function getFavorite() {
+        try {
+            // 确保我们有一个有效的初始值
+            var savedData = favoriteSettings.favorite
+            if (!savedData || savedData === "") {
+                favoriteListView.musicList = []
+                return
+            }
+            
+            // 如果是字符串，尝试解析
+            if (typeof savedData === 'string') {
+                savedData = JSON.parse(savedData)
+            }
+            
+            // 确保结果是数组
+            if (!Array.isArray(savedData)) {
+                favoriteListView.musicList = []
+                return
+            }
+            
+            favoriteListView.musicList = savedData
+        } catch(e) {
+            console.log("Error getting favorite:", e)
+            favoriteListView.musicList = []
+            // 重置为空数组
+            favoriteSettings.setValue("favorite", "[]")
+        }
+    }
+
+    function clearFavorite() {
+        favoriteSettings.setValue("favorite", "[]")
         getFavorite()
     }
 
-    function deleteFavorite(index){
-        // var list = historySettings.value("favorite",[])
-        if(list.lenght<index+1)return
-        list.splice(index,1)
-        // favoriteSettings.setValue("favorite",list)
-        getFavorite()
+    function deleteFavorite(index) {
+        try {
+            var savedData = favoriteSettings.value("favorite", "[]")
+            var list = JSON.parse(savedData)
+            if (!Array.isArray(list)) {
+                list = []
+            }
+            if(list.length < index+1) return
+            list.splice(index, 1)
+            favoriteSettings.setValue("favorite", JSON.stringify(list))
+            getFavorite()
+        } catch(e) {
+            console.log("Error in deleteFavorite:", e)
+            favoriteSettings.setValue("favorite", "[]")
+            getFavorite()
+        }
     }
 
 }

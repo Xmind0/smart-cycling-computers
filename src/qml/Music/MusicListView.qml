@@ -22,7 +22,11 @@ Frame{
 
     onMusicListChanged: {
         listViewModel.clear()
-        listViewModel.append(musicList)
+        if (Array.isArray(musicList)) {
+            for (let i = 0; i < musicList.length; i++) {
+                listViewModel.append(musicList[i])
+            }
+        }
     }
 
     Layout.fillHeight: true
@@ -39,10 +43,8 @@ Frame{
         id:listView
         anchors.fill: parent
         anchors.bottomMargin: 50
-        model:
-
-            ListModel{
-            id:listViewModel
+        model: ListModel {
+            id: listViewModel
         }
         delegate: listViewDelegate   //定义了列表中每个项目的外观和行为。
         ScrollBar.vertical: ScrollBar{   //设置了垂直滚动条的属性，使其始终位于父组件的右侧。
@@ -148,14 +150,15 @@ Frame{
 
                                 onClicked: {
                                     layoutBottomView.saveFavorite({
-                                                                      id:musicList[index].id,
-                                                                      name:musicList[index].name,
-                                                                      artist:musicList[index].artist,
-                                                                      url:musicList[index].url?musicList[index].url:"",
-                                                                      album:musicList[index].album,
-                                                                      type:musicList[index].type?musicList[index].type:""
-                                                                  })
-
+                                        id: musicList[index].id,
+                                        name: musicList[index].name,
+                                        artist: musicList[index].artist,
+                                        url: musicList[index].url || "",
+                                        type: musicList[index].type || "0",
+                                        album: musicList[index].album || "网络音乐"
+                                    })
+                                    
+                                    notification.openSuccess("已添加到我喜欢的音乐")
                                 }
                             }
                             MusicIconButton{
@@ -247,7 +250,7 @@ Frame{
 
     Item{
         id:pageButton
-        visible: musicList.length!==0
+        visible: Boolean(musicList) && Array.isArray(musicList) && musicList.length > 0
         width: parent.width
         height: 40
         anchors.top: listView.bottom

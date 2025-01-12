@@ -100,20 +100,25 @@ Item {
 
     Settings {
         id: settings
-        property var currentPlayMode
-        // fileName: "conf/settings.ini"
+        location: StandardPaths.standardLocations(StandardPaths.AppConfigLocation)[0] + "/musicplayer.conf"
+        category: "Player"
+        property var currentPlayMode: 0
     }
 
     Settings {
         id: historySettings
-        property variant history: []
+        location: StandardPaths.standardLocations(StandardPaths.AppConfigLocation)[0] + "/musicplayer.conf"
+        category: "History"
+        property var history: []
     }
 
-    // Settings {
-    //     id: favoriteSettings
-    //     // location: "conf/favorite.ini"
-    //     // fileName: "conf/favorite.ini"
-    // }
+
+    Settings {
+        id: favoriteSettings
+        location: StandardPaths.standardLocations(StandardPaths.AppConfigLocation)[0] + "/musicplayer.conf"
+        category: "Favorite"
+        property var favorite: []
+    }
 
 
 

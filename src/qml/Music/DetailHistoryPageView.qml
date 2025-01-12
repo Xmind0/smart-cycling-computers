@@ -1,10 +1,17 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.12
-import Qt.labs.platform 1.0
-import Qt.labs.settings 1.1
+import QtQuick.Layouts 1.3
+// import Qt.labs.settings 1.1
+// import Qt.labs.platform 1.0
 import QtQml 2.12
 import Style
+import QtCore  //Settings
+
+
+
+
+
+
 
 //Rectangle
 //RowLayout(item MusicTextButton MusicTextButton)
@@ -58,20 +65,27 @@ ColumnLayout{
         getHistory()
     }
 
-    function getHistory(){
-        historyListView.musicList = historySettings.value("history",[])
+    Settings {
+        id: historySettings
+        location: StandardPaths.standardLocations(StandardPaths.AppConfigLocation)[0] + "/musicplayer.conf"
+        category: "History"
+        property var history: []
     }
 
-    function clearHistory(list=[]){
-        historySettings.setValue("history",[])
+    function getHistory() {
+        historyListView.musicList = historySettings.history
+    }
+
+    function clearHistory() {
+        historySettings.history = []
         getHistory()
     }
 
-    function deleteHistory(index){
-        var list = historySettings.value("history",[])
-        if(list.lenght<index+1)return
-        list.splice(index,1)
-         historySettings.setValue("history",list)
+    function deleteHistory(index) {
+        var list = historySettings.history
+        if(list.length < index+1) return
+        list.splice(index, 1)
+        historySettings.history = list
         getHistory()
     }
 

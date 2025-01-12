@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import QtMultimedia
 import QtQml
 import Style
+import QtQuick.Dialogs
 
 
 Rectangle{
@@ -190,9 +191,67 @@ Rectangle{
         }
     }
 
+    onPlayListChanged: {
+        if (!playList) {
+            playList = []
+            return
+        }
+        
+        if (!Array.isArray(playList)) {
+            console.log("Warning: playList is not an array, converting...")
+            playList = [playList]
+        }
+    }
+
     onCurrentChanged: {
-        playbackStateChangeCallbackEnabled = false
-        playMusic(current)
+        // 基础验证
+        if (current < 0 || !playList || !Array.isArray(playList) || playList.length === 0) {
+            resetPlayState()
+            return
+        }
+
+        // 处理循环播放
+        if (current >= playList.length) {
+            current = 0
+        }
+
+        const currentItem = playList[current]
+        if (!currentItem) {
+            resetPlayState()
+            return
+        }
+
+        // 设置基本音乐信息
+        musicName = currentItem.name || "未知歌曲"
+        musicArtist = currentItem.artist || "未知歌手"
+        musicCover = currentItem.cover || "qrc:/resources/music_icons/player"
+
+        // 根据音乐类型选择播放方式
+        if (currentItem.type === "1") {
+            playLocalMusic()
+        } else {
+            playWebMusic()
+        }
+    }
+
+    function resetPlayState() {
+        mediaPlayer.stop()
+        musicName = "未播放"
+        musicArtist = ""
+        musicCover = "qrc:/resources/music_icons/player"
+        setSlider(0, 100, 0)
+    }
+
+    function playLocalMusic() {
+        var currentItem = playList[current]
+        if (!currentItem || !currentItem.url) {
+            notification.openError("无效的本地音乐文件")
+            return
+        }
+
+        mediaPlayer.source = currentItem.url
+        mediaPlayer.play()
+        saveHistory(current)
     }
 
     Component.onCompleted: {
@@ -227,30 +286,68 @@ Rectangle{
             history.pop()
         }
 
-        // historySettings.setValue("history",history)/
+        historySettings.setValue("history",history)
         console.log("unfinished")
     }
 
 
-    function saveFavorite(value={}){
-        if(!value||!value.id)return
-        // var favorite =  favoriteSettings.value("favorite",[])
-        var i =  favorite.findIndex(item=>value.id===item.id)
-        if(i>=0) favorite.splice(i,1)
-        favorite.unshift({
-                             id:value.id+"",
-                             name:value.name+"",
-                             artist:value.artist+"",
-                             url:value.url?value.url:"",
-                             type:value.type?value.type:"",
-                             album:value.album?value.album:"本地音乐"
-                         })
-        if(favorite.length>500){
-            //限制五百条数据
-            favorite.pop()
+    function saveFavorite(value={}) {
+        if(!value || !value.id) return
+        
+        // 从设置中读取并解析
+        var favorite = []
+        try {
+            var savedData = favoriteSettings.value("favorite", "[]")
+            favorite = JSON.parse(savedData)
+            if (!Array.isArray(favorite)) {
+                favorite = []
+            }
+        } catch(e) {
+            console.log("Error parsing favorite:", e)
+            favorite = []
         }
-        console.log(favorite)
-        // favoriteSettings.setValue("favorite",favorite)
+
+        // 创建新的收藏项，确保所有值都是字符串
+        var newItem = {
+            id: String(value.id || ""),
+            name: String(value.name || ""),
+            artist: String(value.artist || ""),
+            url: String(value.url || ""),
+            cover: String(value.cover || ""),
+            type: String(value.type || "0"),
+            album: String(value.album || "网络音乐")
+        }
+
+        // 查找并移除已存在的项
+        favorite = favorite.filter(function(item) {
+            return item.id !== newItem.id
+        })
+        
+        // 添加到开头
+        favorite.unshift(newItem)
+        
+        // 限制数量
+        if(favorite.length > 500) {
+            favorite = favorite.slice(0, 500)
+        }
+        
+        // 保存为JSON字符串
+        try {
+            var jsonString = JSON.stringify(favorite)
+            favoriteSettings.setValue("favorite", jsonString)
+            notification.openSuccess("已添加到我喜欢的音乐")
+            
+            // 尝试更新收藏列表视图
+            var favoriteView = pageHomeView?.contentItem?.children?.find(child => 
+                child?.objectName === "DetailFavoritePageView"
+            )
+            if (favoriteView) {
+                favoriteView.getFavorite()
+            }
+        } catch(e) {
+            console.log("Error saving favorite:", e)
+            notification.openError("收藏失败")
+        }
     }
 
     function playPrevious(){
@@ -302,28 +399,6 @@ Rectangle{
         settings.setValue("currentPlayMode",currentPlayMode)
     }
 
-    function playMusic(){
-        if(current<0)return
-        if(playList.length<current+1) return
-        //获取播放链接
-
-        if(playList[current].type === "1")
-            playLocalMusic()
-        else{
-            playWebMusic()
-        }
-
-
-    }
-
-    function playLocalMusic(){
-        var currentItem = playList[current]
-        mediaPlayer.source = currentItem.url
-        mediaPlayer.play()
-        saveHistory(current)
-        musicName = currentItem.name
-        musicArtist = currentItem.artist
-    }
     function playWebMusic(){
             loading.open()
             //播放
@@ -405,20 +480,25 @@ Rectangle{
                 //请求歌词
                 getLyric(id)
 
-            try {
-                if(reply.length<1) {
-                    notification.openError("请求歌曲图片为空！")
+                if(!reply) {
+                    notification.openError("获取歌曲详情失败")
                     return
                 }
-                var song = JSON.parse(reply).songs[0]
-                var cover = song.al.picUrl
-                musicCover = cover
-                if(musicName.length<1) musicName = song.name
-                if(musicArtist.length<1) musicArtist = song.ar[0].name
-            } catch(err) {
-                notification.openError("请求歌曲图片出错！")
+
+                try {
+                    if(reply.length < 1) {
+                        notification.openError("请求歌曲图片为空！")
+                        return
+                    }
+                    var song = JSON.parse(reply).songs[0]
+                    var cover = song.al.picUrl
+                    musicCover = cover
+                    if(musicName.length < 1) musicName = song.name
+                    if(musicArtist.length < 1) musicArtist = song.ar[0].name
+                } catch(err) {
+                    notification.openError("请求歌曲图片出错！")
+                }
             }
-        }
 
         http.replySignal.connect(onReply)
         http.get("song/detail?ids="+id, "songdetail")
@@ -470,4 +550,3 @@ Rectangle{
         }
 
     }
-

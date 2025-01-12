@@ -25,10 +25,10 @@ int main(int argc, char *argv[])
     qDebug() << "QML file exists:" << QFile::exists(url.toString());
 
     // 列出所有资源
-    QDirIterator it(":", QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-        qDebug() << "Available resource:" << it.next();
-    }
+    // QDirIterator it(":", QDirIterator::Subdirectories);
+    // while (it.hasNext()) {
+    //     qDebug() << "Available resource:" << it.next();
+    // }
 
     qDebug() << "Loading QML from:" << url.toString();
     qDebug() << "QML file exists:" << QFile::exists(url.toString());

@@ -98,5 +98,6 @@
         <file>resources/app_icons/record.svg</file>
         <file>resources/app_icons/stop.svg</file>
         <file>resources/app_icons/switch_camera.svg</file>
+        <file>resources/app_icons/camera.svg</file>
     </qresource>
 </RCC>

@@ -9,21 +9,16 @@ import Style
 
 
 
-//Rectangle
-//RowLayout(item MusicTextButton MusicTextButton MusicTextButton)
-//MusicListView
 
 ColumnLayout{
 
-    Settings{
-        id:localSettings
-        location: "conf/local.ini"
+    Settings {
+        id: localSettings
+        location: StandardPaths.standardLocations(StandardPaths.AppConfigLocation)[0] + "/musicplayer.conf"
+        category: "LocalMusic"
+        property var local: []
     }
 
-    // Settings{
-    //     id:localSettings
-    //     fileName: "conf/local.ini"
-    // }
 
     Rectangle{
 
@@ -80,21 +75,21 @@ ColumnLayout{
     }
 
     function getLocal(){
-        // var list = localSettings.value("local",[])
-        localListView.musicList = list
-        return list
+        localListView.musicList = localSettings.local
+        return localSettings.local
     }
 
     function saveLocal(list=[]){
-        // localSettings.setValue("local",list)
-        getLocal()
+        localSettings.local = list
+        localListView.musicList = list
     }
 
     function deleteLocal(index){
-        // var list = localSettings.value("local",[])
-        if(list.lenght<index+1)return
-        list.splice(index,1)
-        saveLocal(list)
+        var list = localSettings.local
+        if(list.length < index+1) return
+        list.splice(index, 1)
+        localSettings.local = list
+        localListView.musicList = list
     }
 
 
@@ -108,35 +103,37 @@ ColumnLayout{
         rejectLabel: "取消"
 
         onAccepted: {
-            var list = []
+            var list = localSettings.local || []
             for(var index in files){
                 var path = files[index]
-
-                var arr = path.split("/")
-                var fileNameArr = arr[arr.length-1].split(".")
-                //去掉后缀
+                let filePath = String(path)
+                let rawFileName = filePath.split('/').pop()
+                var fileNameArr = rawFileName.split(".")
                 fileNameArr.pop()
 
                 var fileName = fileNameArr.join(".")
                 var nameArr = fileName.split("-")
-                var name = "xxxname"
-                var artist = "xxxname"
-                if(nameArr.length>1){
-                    artist = nameArr[0]
+                var name = "未知歌曲"
+                var artist = "未知歌手"
+
+                if(nameArr.length > 1) {
+                    artist = nameArr[0].trim()
                     nameArr.shift()
+                    name = nameArr.join("-").trim()
                 }
-                name = nameArr.join("-")
-                if(list.filter(item=>item.id === path).length < 1)
+
+                if(list.filter(item=>item.id === path).length < 1) {
                     list.push({
-                              id:path+"",
-                                  name,artist,
-                                  url:path+"",
-                                  album:"本地音乐",
-                                  type:"1" //1表示本地
-                              })
-                saveLocal(list)
-                localListView.musicList = list
+                        id: path,
+                        name: name,
+                        artist: artist,
+                        url: path,
+                        album: "本地音乐",
+                        type: "1"
+                    })
+                }
             }
+            saveLocal(list)
         }
     }
 }

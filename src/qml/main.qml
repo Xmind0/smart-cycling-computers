@@ -29,7 +29,7 @@ ApplicationWindow {
 
     MusicPlayerWindow{
         id: musicPlayer
-        visible: false
+        visible: true
     }
 
     Camera{
@@ -44,7 +44,7 @@ ApplicationWindow {
 
     Map{
         id: map
-        visible: true
+        visible: false
     }
 
     SpeedView{
