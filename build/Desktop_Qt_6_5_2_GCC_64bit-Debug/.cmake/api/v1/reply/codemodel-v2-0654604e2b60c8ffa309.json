@@ -1,0 +1,87 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "smart-cycling-computers",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "scc-app::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-scc-app-Debug-e05ab0d49463b75d3736.json",
+					"name" : "scc-app",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "scc-app_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-scc-app_autogen-Debug-3a172adda4e1fed471b5.json",
+					"name" : "scc-app_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "scc-app_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-scc-app_autogen_timestamp_deps-Debug-fa4d35b27eadd18cec5c.json",
+					"name" : "scc-app_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "scc-app_qmlimportscan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-scc-app_qmlimportscan-Debug-cd36cc2bca51c7dcb661.json",
+					"name" : "scc-app_qmlimportscan",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/hcy/QT_pro/smart-cycling-computer/build/Desktop_Qt_6_5_2_GCC_64bit-Debug",
+		"source" : "/home/hcy/QT_pro/smart-cycling-computer"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

@@ -5,12 +5,13 @@ import QtQuick.Layouts
 import QtMultimedia 
 import Style
 import Qt5Compat.GraphicalEffects
-import "./Base"
-import "./Connectivity"
-import "./Media"
-import "./Music"
-import "./Settings"
-import "./Speed"
+import "Base"
+import "Connectivity"
+import "Media"
+import "Music"
+import "Settings"
+import "Speed"
+import "AI"
 
 ApplicationWindow {
     id: root
@@ -52,6 +53,29 @@ ApplicationWindow {
         visible: false
     }
 
+    Loader {
+        id: notes
+        source: "Notes/NotesWindow.qml"
+        active: true
+        visible: false
+        anchors.fill: parent
+    }
+
+    Loader {
+        id: aiAssistant
+        source: "qrc:/src/qml/AI/AIAssistant.qml"
+        active: true  // 确保组件被加载
+        visible: false
+        anchors.fill: parent  // 让 Loader 填充父组件
+        //打印父控件名称
+
+        onLoaded: {
+            console.log("AI Assistant loaded")  // 添加日志
+            console.log(this)
+            console.log(parent)
+        }
+    }
+
     background: Image {
         // icon :lock power   and  frunk open
         source: Style.getImageBasedOnTheme()
@@ -66,6 +90,19 @@ ApplicationWindow {
         id: footerLayout
         visible: !root.showFullItem 
         onOpenLauncher: launcher.open()
+        onOpenAI: {
+            console.log("Opening AI Assistant")
+            if (aiAssistant.status === Loader.Ready) {
+                aiAssistant.visible = true
+                if (aiAssistant.item) {
+                    aiAssistant.item.visible = true
+                    aiAssistant.item.recording = true  // 直接开始录音
+                    root.showFullItem = true
+                }
+            } else {
+                console.log("AI Assistant not ready")
+            }
+        }
     }
 
     LaunchPadControl {  
@@ -73,5 +110,4 @@ ApplicationWindow {
         y: 0
         x: (root.width - width ) / 2
     }
-
 }

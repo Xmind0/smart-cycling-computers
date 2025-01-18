@@ -388,6 +388,9 @@ Qt6WebEngineCore_DIR:PATH=/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebEngineCore
 //The directory containing a CMake configuration file for Qt6WebEngineQuick.
 Qt6WebEngineQuick_DIR:PATH=/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebEngineQuick
 
+//The directory containing a CMake configuration file for Qt6WebSockets.
+Qt6WebSockets_DIR:PATH=/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets
+
 //The directory containing a CMake configuration file for Qt6.
 Qt6_DIR:PATH=/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6
 

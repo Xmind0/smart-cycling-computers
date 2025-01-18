@@ -47,5 +47,8 @@
         <file>src/qml/Style.qml</file>
         <file>src/qml/Settings/Style.qml</file>
         <file>src/others/taskMap.html</file>
+        <file>src/qml/AI/AIAssistant.qml</file>
+        <file>src/qml/AI/ActionButton.qml</file>
+        <file>src/qml/Notes/NotesWindow.qml</file>
     </qresource>
 </RCC>

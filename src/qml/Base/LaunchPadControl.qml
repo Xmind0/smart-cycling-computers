@@ -115,6 +115,23 @@ Popup {
                 icon.width: 12
                 icon.height: 12
                 text: "Music"
+                onClicked: {
+                    musicPlayer.visible = true
+                    root.showFullItem = true
+                    close()
+                }
+            }
+            LauncherButton {
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                icon.source: "qrc:/resources/app_icons/radio.svg"
+                icon.width: 12
+                icon.height: 12
+                text: "Notes"
+                onClicked: {
+                    notes.visible = true
+                    root.showFullItem = true
+                    close()
+                }
             }
         }
     }

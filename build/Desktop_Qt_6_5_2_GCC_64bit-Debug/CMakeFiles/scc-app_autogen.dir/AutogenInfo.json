@@ -1146,6 +1146,15 @@
 		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebEngineQuick/Qt6WebEngineQuickTargets-relwithdebinfo.cmake",
 		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebEngineQuick/Qt6WebEngineQuickAdditionalTargetInfo.cmake",
 		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebEngineQuick/Qt6WebEngineQuickVersionlessTargets.cmake",
+		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets/Qt6WebSocketsConfigVersion.cmake",
+		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets/Qt6WebSocketsConfigVersionImpl.cmake",
+		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets/Qt6WebSocketsConfig.cmake",
+		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeFindDependencyMacro.cmake",
+		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets/Qt6WebSocketsDependencies.cmake",
+		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets/Qt6WebSocketsTargets.cmake",
+		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets/Qt6WebSocketsTargets-relwithdebinfo.cmake",
+		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets/Qt6WebSocketsAdditionalTargetInfo.cmake",
+		"/opt/Qt/6.5.2/gcc_64/lib/cmake/Qt6WebSockets/Qt6WebSocketsVersionlessTargets.cmake",
 		"/home/hcy/QT_pro/smart-cycling-computer/qml.qrc",
 		"/home/hcy/QT_pro/smart-cycling-computer/res.qrc"
 	],
@@ -1159,6 +1168,18 @@
 			"/home/hcy/QT_pro/smart-cycling-computer/src/network/httputils.h",
 			"Mu",
 			"UFQQIFJZKK/moc_httputils.cpp",
+			null
+		],
+		[
+			"/home/hcy/QT_pro/smart-cycling-computer/src/notes/NotesManager.h",
+			"Mu",
+			"VWVGYZJS4X/moc_NotesManager.cpp",
+			null
+		],
+		[
+			"/home/hcy/QT_pro/smart-cycling-computer/src/speechRecognizer/SpeechRecognizer.h",
+			"Mu",
+			"IQDJVQN7UH/moc_SpeechRecognizer.cpp",
 			null
 		]
 	],
@@ -1179,7 +1200,8 @@
 		"QT_QUICK_LIB",
 		"QT_WEBCHANNEL_LIB",
 		"QT_WEBENGINECORE_LIB",
-		"QT_WEBENGINEQUICK_LIB"
+		"QT_WEBENGINEQUICK_LIB",
+		"QT_WEBSOCKETS_LIB"
 	],
 	"MOC_DEPEND_FILTERS" : 
 	[
@@ -1190,6 +1212,7 @@
 	],
 	"MOC_INCLUDES" : 
 	[
+		"/home/hcy/QT_pro/smart-cycling-computer/src",
 		"/opt/Qt/6.5.2/gcc_64/include/QtCore",
 		"/opt/Qt/6.5.2/gcc_64/include",
 		"/opt/Qt/6.5.2/gcc_64/mkspecs/linux-g++",
@@ -1205,6 +1228,7 @@
 		"/opt/Qt/6.5.2/gcc_64/include/QtWebChannel",
 		"/opt/Qt/6.5.2/gcc_64/include/QtPositioning",
 		"/opt/Qt/6.5.2/gcc_64/include/QtWebEngineQuick",
+		"/opt/Qt/6.5.2/gcc_64/include/QtWebSockets",
 		"/usr/include",
 		"/usr/include/c++/11",
 		"/usr/include/x86_64-linux-gnu/c++/11",
@@ -1248,6 +1272,16 @@
 		[ "/home/hcy/QT_pro/smart-cycling-computer/src/main.cpp", "Mu", null ],
 		[
 			"/home/hcy/QT_pro/smart-cycling-computer/src/network/httputils.cpp",
+			"Mu",
+			null
+		],
+		[
+			"/home/hcy/QT_pro/smart-cycling-computer/src/notes/NotesManager.cpp",
+			"Mu",
+			null
+		],
+		[
+			"/home/hcy/QT_pro/smart-cycling-computer/src/speechRecognizer/SpeechRecognizer.cpp",
 			"Mu",
 			null
 		]

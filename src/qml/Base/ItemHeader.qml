@@ -10,6 +10,8 @@ Item {
     width: parent.width
     height: 38
 
+    signal backAnimationFinished()
+
     Image {
         id: backArrow
         source: "qrc:/resources/app_icons/arrow-down.svg"
@@ -34,10 +36,10 @@ Item {
         duration: 300
         easing.type: Easing.InOutQuad
         onFinished: {
-            console.log(root)
             parent.visible = !parent.visible
             root.showFullItem = !root.showFullItem
             parent.y = 0; // 重置位置
+            backItem.backAnimationFinished()
         }
     }
 }

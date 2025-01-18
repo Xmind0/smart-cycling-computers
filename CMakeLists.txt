@@ -1,4 +1,3 @@
-
 #1.项目基本信息
 cmake_minimum_required(VERSION 3.16)  # 指定CMake的最低版本要求
 project(smart-cycling-computers VERSION 0.1 LANGUAGES CXX)  # 定义项目名称和版本，指定使用C++语言
@@ -24,6 +23,7 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS
     Multimedia 
     WebEngineCore 
     WebEngineQuick
+    WebSockets
 )
 
 #3. 添加源文件
@@ -31,6 +31,8 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS
 qt_add_executable(scc-app
     src/main.cpp
     src/network/httputils.cpp
+    src/speechRecognizer/SpeechRecognizer.cpp
+    src/notes/NotesManager.cpp
     qml.qrc
     res.qrc
 )
@@ -42,6 +44,7 @@ target_link_libraries(scc-app PRIVATE
     Qt6::Multimedia
     Qt6::WebEngineCore
     Qt6::WebEngineQuick
+    Qt6::WebSockets
 )
 
 # 其他
@@ -50,7 +53,7 @@ message("CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 message("Qt6_DIR: ${Qt6_DIR}")
 
 # 包含qt的头文件 资源文件 UI文件
-# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # 自定义构建
 # add_library(httputils SHARED src/network/httputils.cpp)

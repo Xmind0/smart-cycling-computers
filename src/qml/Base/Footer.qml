@@ -9,8 +9,8 @@ Item {
     height: 80
     width: parent.width
     signal openLauncher()
+    signal openAI()
     // signal openBlueWifi() // 添加此信号
-
     LinearGradient {
         anchors.fill: parent
         start: Qt.point(0, 0)
@@ -122,7 +122,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: 36
-        onClicked: openLauncher()
+        onClicked: openAI()
     }
 
 }

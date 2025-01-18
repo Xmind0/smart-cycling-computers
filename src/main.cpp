@@ -1,50 +1,34 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QtWebEngineQuick/QtWebEngineQuick>
+#include <QQmlContext>
+#include <QtWebEngineQuick>
 #include "network/httputils.h"
+#include "speechRecognizer/SpeechRecognizer.h"
+#include "notes/NotesManager.h"
 
-#include <QQuickWindow>
 int main(int argc, char *argv[])
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+    // 在创建QGuiApplication之前初始化WebEngine
+    QtWebEngineQuick::initialize();
+    
     QGuiApplication app(argc, argv);
-
-    app.setOrganizationName("Some Company");
-    app.setOrganizationDomain("somecompany.com");
-
-    qmlRegisterType<HttpUtils>("MyUtils",1,0,"HttpUtils");
-
-    //初始化 WebEngine
-    // QtWebEngineQuick::initialize();
-
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/src/qml/main.qml"));
-    qDebug() << "Loading QML from:" << url.toString();
-    qDebug() << "QML file exists:" << QFile::exists(url.toString());
 
-    // 列出所有资源
-    // QDirIterator it(":", QDirIterator::Subdirectories);
-    // while (it.hasNext()) {
-    //     qDebug() << "Available resource:" << it.next();
-    // }
+    // 注册Style单例
+    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/src/qml/Settings/Style.qml")), "Style", 1, 0, "Style");
 
-    qDebug() << "Loading QML from:" << url.toString();
-    qDebug() << "QML file exists:" << QFile::exists(url.toString());
+    // 注册C++类到QML
+    qmlRegisterType<HttpUtils>("Network", 1, 0, "HttpUtils");
+    qmlRegisterType<SpeechRecognizer>("SpeechRecognition", 1, 0, "SpeechRecognizer");
+    qmlRegisterType<NotesManager>("Notes", 1, 0, "NotesManager");
 
+    const QUrl url(u"qrc:/src/qml/main.qml"_qs);
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+                         if (!obj && url == objUrl)
+                             QCoreApplication::exit(-1);
+                     }, Qt::QueuedConnection);
 
-    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/src/qml/Style.qml")), "Style", 1, 0, "Style");
-    QObject::connect(
-        &engine,
-        &QQmlApplicationEngine::objectCreated,
-        &app,
-        [url](QObject *obj, const QUrl &objUrl) {
-            if (!obj && url == objUrl)
-                QCoreApplication::exit(-1);
-        },
-        Qt::QueuedConnection);
     engine.load(url);
-
     return app.exec();
 }
