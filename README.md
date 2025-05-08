@@ -35,6 +35,13 @@
     * 实现速度显示。
     * 实现里程记录和历史数据查看。
     * 实现骑行数据分析和建议。
+      
+## UI
+![image](https://github.com/user-attachments/assets/bb9195e3-5320-47ee-a62f-1e63ed83f9dd)
+![image](https://github.com/user-attachments/assets/655713cd-9007-426c-801c-572afb1ab16f)
+![image](https://github.com/user-attachments/assets/7d4ce66c-67c8-44bc-8558-683776b90812)
+![image](https://github.com/user-attachments/assets/6a3f1b67-94fc-4b70-a5dd-6a0df615a490)
+
 
 
 ## 开发环境
